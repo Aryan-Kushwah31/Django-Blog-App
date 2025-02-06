@@ -22,12 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-n+=ek#ezfc4ol-$g4-$fv(r19y%9o#%e@jmfi0di%yg7#2mdbs'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', False).lower() == 'true'
 
-ALLOWED_HOSTS = ["https://django-blog-app-smq5.onrender.com"]
+
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
 
 
 # Application definition
@@ -86,7 +87,8 @@ DATABASES = {
     }
 }
 
-DATABASES['default'] = dj_database_url.parse("postgresql://django_blog_auyk_user:3SV9zoQJmff5O273yaAns7bhdWdiLWEI@dpg-cui84u1u0jms739bk7lg-a.oregon-postgres.render.com/django_blog_auyk")
+database_url = os.environ.get('DATABASE_URL')
+DATABASES['default'] = dj_database_url.parse(database_url)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
